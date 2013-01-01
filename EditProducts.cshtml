@@ -1,0 +1,57 @@
+﻿@{
+    var db = Database.Open("MyDB");
+    var q = "SELECT * FROM Products ORDER BY PNAme";
+    var data = db.Query(q);
+ }
+@{
+    Layout="~/shared/_LayoutForAdmin.cshtml";
+    var PageTitle="Furniture Shop Products";
+}
+
+@section t1{
+@PageTitle
+}
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Furniture Shop Products</title>
+   <style>
+       table, th, td {
+         border: solid 1px #bbbbbb;
+         border-collapse: collapse;
+         padding: 2px;
+       }
+    </style>
+ </head>
+ <body>
+   <h1>Furniture Shop Products</h1>
+   <table style="margin-top: 20px; background-color: #bbbbbb;width: 500px">
+       <thead>
+           <tr style="border: thin black; background-color: #407e48">
+               <th>&nbsp;</th>
+               <th>ID</th>
+               <th>Name</th>
+               <th>Category</th>
+               <th>Description</th>
+               <th>Price</th>
+               <th>Quantity</th>
+               <th>Image</th>       
+           </tr>
+       </thead>
+       <tbody>
+           @foreach(var row in data){
+            <tr style="border: thin black; background-color: #dfd5d5;text-align: center">
+                   <td><a href="@Href("~/UpdateProduct.cshtml",row.Pid)">Edit</a></td>
+                   <td>@row.Pid</td>
+                   <td>@row.PNAme</td>
+                   <td>@row.PCategory</td>
+                   <td>@row.PDescription</td>                   
+                   <td>@row.PPrice</td>                   
+                   <td>@row.PQuantity</td>
+                   <td><img src="@Href(@row.PImage)" alt="" style="width:50px;height:50px"/></td>
+            </tr>
+           }
+       </tbody>
+   </table>
+ </body>
+</html>

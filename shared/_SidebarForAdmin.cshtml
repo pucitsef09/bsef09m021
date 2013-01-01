@@ -1,0 +1,33 @@
+﻿@{
+    
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+     <div id="sidebar" style="height: 400px">
+				<img src="~/Styles/images/title1.gif" alt="images/title1.gif" width="174" height="30" /><br />																																																																		
+				<ul id="list">
+                    <li><h3>Product</h3></li>
+					<li class="color"><a href="@Href("~/AddProduct.cshtml")">Add Product</a></li>
+					<li><a href="@Href("~/ViewProducts.cshtml")">View Product</a></li>
+					<li class="color"><a href="@Href("~/EditProducts.cshtml")">Update Product</a></li>
+					<li><a href="@Href("~/SearchProduct.cshtml")">Search Product</a></li>
+					<li class="color"><a href="@Href("~/ListProductsDelete.cshtml")">Delete Product</a></li>
+                    <li><h3>Category</h3></li>					
+                    <li class="color"><a href="@Href("~/AddCategory.cshtml")">Add Category</a></li>
+					<li><a href="@Href("~/ViewCategory.cshtml")">View Category</a></li>
+					<li class="color"><a href="@Href("~/EditCategory.cshtml")">Update Category</a></li>
+					<li><a href="@Href("~/SearchCategory.cshtml")">Search Category</a></li>
+					<li class="color"><a href="@Href("~/ListCategoryDelete.cshtml")">Delete Category</a></li>					
+				</ul>                
+                
+	 </div>   
+    </body>
+</html>

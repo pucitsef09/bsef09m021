@@ -1,0 +1,45 @@
+﻿@{
+     Layout="~/shared/_LayoutForAdmin.cshtml";
+     var PageTitle="Search product";
+}
+@section t1{
+@PageTitle
+}
+
+@{
+  var v="";
+  if(IsPost){
+  v=Request.Form["Search"];  
+  Response.Redirect(@Href("~/SearchProductResults.cshtml",@v));
+  }
+  }
+    
+ 
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style type="text/css">
+        label {float:left; width: 8em; text-align: right;
+    margin-right: 0.5em;}
+    fieldset {padding: 1em; border: 1px solid; width: 20em;}
+    legend {padding: 2px 4px; border: 1px solid; font-weight:bold;}
+    .validation-summary-errors {font-weight:bold; color:red;
+           font-size: 11pt;}
+    </style>
+    </head>
+    <body>
+        <form action="" method="post" >
+        <fieldset>        
+        <legend>Search Product</legend>
+        <div style="height: 150px">
+        <span><input type="text" value="" name="Search" id="s" style="width:200px;height:23px;margin-top: 40px"/></span>
+        <input type="submit" value="Search" style="height: 30px;width: 70px"/>
+        </div>
+         
+        </fieldset>
+        </form>
+    </body>
+</html>

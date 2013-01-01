@@ -1,0 +1,71 @@
+﻿
+@{
+    Validation.RequireField("Name", "Product name is required.");                 
+
+    var db = Database.Open("MyDB");    
+    var CategoryId  = UrlData[0];
+    if (CategoryId.IsEmpty()) {
+         Response.Redirect("~/EditCategory");
+    }
+    var selectQueryString = "SELECT * FROM Category WHERE CID=@0";  
+    var row = db.QuerySingle(selectQueryString, CategoryId);
+    var Name = row.CName;
+    var Description = row.CDescription;       
+    if(IsPost)
+    {
+    Name = Request.Form["Name"];    
+    Description = Request.Form["Description"];  }
+    
+        if (IsPost && Validation.IsValid()) {
+        var updateQueryString ="UPDATE Category SET CName=@0,CDescription=@1 WHERE CID=@2";
+        db.Execute(updateQueryString, Name, Description,CategoryId);
+        Response.Redirect(@Href("~/EditCategory"));
+    }
+    }
+
+@{
+     Layout="~/shared/_LayoutForAdmin.cshtml";
+     var PageTitle="Update Category";
+}
+@section t1{
+@PageTitle
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style type="text/css">
+        label {float:left; width: 8em; text-align: right;
+           margin-right: 0.5em;}
+    fieldset {padding: 1em; border: 1px solid; width: 20em;}
+    legend {padding: 2px 4px; border: 1px solid; font-weight:bold;}
+    .validation-summary-errors {font-weight:bold; color:red;
+           font-size: 11pt;}
+ </style>
+    </head>
+    <body>
+        @Html.ValidationSummary()
+        <form method="post" action="" enctype="multipart/form-data">
+        <fieldset>
+        <legend>Update Category</legend>
+        <div>
+        
+        <table style="height: 100px;width: 400px">        
+       
+        
+        <tr><td>Category Name : </td><td><input type="text" name="Name" value="@Name"/></td></tr> 
+        <tr><td>Description : </td><td><input type="text" name="Description" value="@Description" /></td></tr>
+       
+        </table>        
+        </div>
+        <div style="padding: 8px;margin-left: 90px;margin-top: 30px">
+        <input type="submit" value="Add Category" class="submit" style="width:90px;height: 30px"/>
+        </div>
+        </fieldset>
+         
+        </form>       
+    </body>
+</html>

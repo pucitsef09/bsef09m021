@@ -1,0 +1,101 @@
+﻿
+@{
+    Validation.RequireField("Name", "Product name is required.");
+    Validation.RequireField("Quantity", "Product quantity is required.");
+    Validation.RequireField("Price", "Product price is required.");    
+
+
+    var db = Database.Open("MyDB");
+    var Name = Request.Form["Name"];
+    var Quantity = Request.Form["Quantity"];
+    var Price = Request.Form["Price"];
+    var Description = Request.Form["Description"];
+    var Category = Request.Form["Category"];
+    WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+    var c="--Select Category--";
+    
+
+    if(IsPost){
+        
+        photo = WebImage.GetImageFromRequest();
+        if(photo != null){
+            newFileName =    Path.GetFileName(photo.FileName);
+            
+            imagePath = @"Styles\Products\" + newFileName;
+            
+            photo.Save(@"~\" + imagePath);           
+            c=Request.Form["Category"];
+        }
+    }
+    var Image="~/Styles/Products/"+newFileName;     
+  //  var Image;
+  //  var Image = Request.Form["Image"];
+
+    if (IsPost && Validation.IsValid()) {       
+        if(ModelState.IsValid) {
+            var insertQuery = "INSERT INTO Products (PNAme, PCategory, PDescription, PPrice, PQuantity, PImage) " +
+                "VALUES (@0, @1, @2, @3, @4, @5)";
+            db.Execute(insertQuery, Name, Category,Description,Price,Quantity,Image );           
+        }
+    }
+
+}
+
+
+@{
+     Layout="~/shared/_LayoutForAdmin.cshtml";
+     var PageTitle="Add product";
+}
+@section t1{
+@PageTitle
+}
+
+@{   
+    var q = "SELECT * FROM Category ORDER BY CName";
+    var data = db.Query(q);
+ }
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style type="text/css">
+        label {float:left; width: 8em; text-align: right;
+           margin-right: 0.5em;}
+    fieldset {padding: 1em; border: 1px solid; width: 20em;}
+    legend {padding: 2px 4px; border: 1px solid; font-weight:bold;}
+    .validation-summary-errors {font-weight:bold; color:red;
+           font-size: 11pt;}
+ </style>
+    </head>
+    <body>
+        @Html.ValidationSummary()
+        <form method="post" action="" enctype="multipart/form-data">
+        <fieldset>
+        <legend>Add Product</legend>
+        <div>        
+        <table style="height: 100px;width: 400px">
+        <tr><td>Category : </td><td><select name="Category"><option>@c</option>
+        @foreach(var row in data){
+          <option>@row.CName </option>
+        }
+        </select> </td></tr>
+        <tr><td>Product Name : </td><td><input type="text" name="Name" value="@Name"/></td></tr> 
+        <tr><td>Description : </td><td><input type="text" name="Description" value="@Description" /></td></tr> 
+        <tr><td>Price : </td><td><input type="text" name="Price" value="@Price"/></td></tr> 
+        <tr><td>Quantity : </td><td><input type="text" name="Quantity" value="@Quantity"/></td></tr> 
+        <tr><td>Image : </td><td><input type="file" name="Image" value="@Image" /></td></tr> 
+        </table>        
+        </div>
+        <div style="padding: 8px;margin-left: 90px;margin-top: 30px">
+        <input type="submit" value="Add Product" class="submit" style="width:90px;height: 30px"/>
+        </div>
+        </fieldset>
+         
+        </form>       
+    </body>
+</html>

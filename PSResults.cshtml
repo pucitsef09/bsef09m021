@@ -1,0 +1,69 @@
+﻿
+@{  
+    
+    var db = Database.Open("MyDB"); 
+    var query = "SELECT * FROM products ORDER BY PNAme";
+    var data = db.Query(query);
+    var s = Request.Form["options"];
+    var sqlSelect = "";
+    if(s=="Category")
+    {
+        sqlSelect = "SELECT * FROM products WHERE " + "PCategory LIKE @0"; 
+    } 
+    else if(s=="Price")
+    {
+        sqlSelect = "SELECT * FROM products WHERE " + "PPrice LIKE @0"; 
+    
+    }   
+    else if(s=="Name")
+    {
+        sqlSelect = "SELECT * FROM products WHERE " + "PNAme LIKE @0"; 
+    
+    }
+    var text = Request["searchText"].Split(' '); 
+    IEnumerable<dynamic> r = Enumerable.Empty<string>(); 
+        foreach(var v in text) 
+        { 
+            r = r.Concat(db.Query(sqlSelect, "%" + v + "%").ToList()); 
+        }
+         
+}
+
+@{
+    Layout="~/shared/_layout.cshtml";
+    var PageTitle="Search Results";
+}
+
+@section t1{
+@PageTitle
+}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>                
+        <link rel="stylesheet" type="text/css" href="~/Styles/style.css" /> 
+         <style type="text/css">
+        label {float:left; width: 8em; text-align: right;
+    margin-right: 0.5em;}
+    fieldset {padding: 1em; border: 1px solid; width: 46em;}
+    legend {padding: 2px 4px; border: 1px solid; font-weight:bold;}    
+    </style>             
+	</head>
+    <body>
+        <form action="" method="post">
+           <fieldset>
+            <legend>Search Results</legend>
+        	<div id="main_block">          					
+                <div id="items">
+					  @foreach (var row in r) {                 
+                        @Helper_Default.MainPage(row.PImage,row.PPrice,row.PNAme,row.Pid)                                                
+                
+                } 					
+				</div>                
+               
+			</div>
+            </fieldset>
+            </form>
+    </body>
+</html>

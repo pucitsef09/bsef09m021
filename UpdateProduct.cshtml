@@ -1,0 +1,111 @@
+﻿
+@{
+    Validation.RequireField("Name", "Product name is required.");
+    Validation.RequireField("Quantity", "Product Quantity is required.");
+    Validation.RequireField("Price", "Product price is required.");                   
+
+    var db = Database.Open("MyDB");    
+    var ProductId  = UrlData[0];
+    if (ProductId.IsEmpty()) {
+         Response.Redirect("~/EditProducts");
+    }
+    var selectQueryString = "SELECT * FROM Products WHERE Pid=@0";
+    WebImage photo = null;
+    var newFileName = "";
+    var imagePath = "";
+
+    var row = db.QuerySingle(selectQueryString, ProductId);
+    var Name = row.PNAme;
+    var Description = row.PDescription;
+    var Price = row.PPrice;
+    var Quantity=row.PQuantity;
+    var Category=row.PCategory;
+
+    if(IsPost){        
+        photo = WebImage.GetImageFromRequest();
+        if(photo != null){
+            newFileName =    Path.GetFileName(photo.FileName);
+            
+            imagePath = @"Styles\Products\" + newFileName;
+            
+            photo.Save(@"~\" + imagePath);           
+        }
+
+    Name = Request.Form["Name"];
+    Quantity = Request.Form["Quantity"];
+    Price = Request.Form["Price"];
+    Description = Request.Form["Description"];
+    Category = Request.Form["Category"];
+    }
+    
+    var Image="~/Styles/Products/"+newFileName;         
+
+    if (IsPost && Validation.IsValid()) {
+        var updateQueryString =
+            "UPDATE Products SET PNAme=@0, PDescription=@1, PPrice=@2, PQuantity=@3, PCategory=@4, PImage=@5 WHERE Pid=@6" ;
+        db.Execute(updateQueryString, Name, Description, Price,Quantity,Category,Image,ProductId);
+        Response.Redirect(@Href("~/EditProducts"));
+    }
+    }
+
+
+
+
+@{
+     Layout="~/shared/_LayoutForAdmin.cshtml";
+     var PageTitle="Update product";
+}
+@section t1{
+@PageTitle
+}
+
+@{   
+    var q = "SELECT * FROM Category ORDER BY CName";
+    var data = db.Query(q);
+ }
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style type="text/css">
+        label {float:left; width: 8em; text-align: right;
+           margin-right: 0.5em;}
+    fieldset {padding: 1em; border: 1px solid; width: 20em;}
+    legend {padding: 2px 4px; border: 1px solid; font-weight:bold;}
+    .validation-summary-errors {font-weight:bold; color:red;
+           font-size: 11pt;}
+ </style>
+    </head>
+    <body>
+        @Html.ValidationSummary()
+        <form method="post" action="" enctype="multipart/form-data">
+        <fieldset>
+        <legend>Update Product</legend>
+        <div>
+        
+        <table style="height: 100px;width: 400px">
+        <tr><td>Category : </td><td><select name="Category"><option>@Category</option>
+        @foreach(var r in data){
+            if(r.CName!=Category)
+            {
+          <option>@r.CName </option>}
+        }
+        </select> </td></tr>
+        <tr><td>Product Name : </td><td><input type="text" name="Name" value="@Name"/></td></tr> 
+        <tr><td>Description : </td><td><input type="text" name="Description" value="@Description" /></td></tr> 
+        <tr><td>Price : </td><td><input type="text" name="Price" value="@Price"/></td></tr> 
+        <tr><td>Quantity : </td><td><input type="text" name="Quantity" value="@Quantity"/></td></tr> 
+        <tr><td>Image : </td><td><input type="file" name="Image" value="@Image"/></td></tr> 
+        </table>        
+        </div>
+        <div style="padding: 8px;margin-left: 90px;margin-top: 30px">
+        <input type="submit" value="Add Product" class="submit" />
+        </div>
+        </fieldset>
+         
+        </form>       
+    </body>
+</html>

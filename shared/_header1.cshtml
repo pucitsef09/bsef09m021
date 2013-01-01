@@ -1,0 +1,33 @@
+﻿@{
+  
+
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="~/Styles/style.css" />
+    </head>
+    <body>
+        <form action="/PSResults.cshtml" method="post">
+        <div style="width: fit-content;" id="searchdiv">
+        <span style="margin-left: 800px"><label>Search by :  </label><select name="options"><option value="Category">Category</option><option value="Name">Name</option><option value="Price">Price</option></select></span> @Html.TextBox("searchText")<input type="submit" name="search"/>
+        </div></form>
+        <div id="header">        
+		<div id="header_inside">
+			<img src="~/Styles/images/header.jpg" alt="setalpm" width="999" height="222" usemap="#Map" /><br />																																													
+            <ul id="menu">
+				<li><a href="index.html" class="but1_active">Home Page</a></li>
+				<li><a href="index2.html" class="but2">About Us</a></li>
+				<li><a href="~/Logout.cshtml" class="but3">LogOut</a></li>
+				<li><a href="~/OrderDetails.cshtml" class="but4">Cart</a></li>
+				<li><a href="index2.html" class="but5">My Account</a></li>
+				<li><a href="index2.html" class="but6">Contacts</a></li>
+			</ul>
+		</div>
+	</div>
+    </body>
+</html>

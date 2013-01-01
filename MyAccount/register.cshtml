@@ -1,0 +1,58 @@
+﻿@{
+var username = "";
+var password1 = "";
+var password2 = "";
+
+if(IsPost)
+{
+//WebSecurity.Logout();
+username = Request["username"];
+password1 = Request["password1"];
+password2 = Request["password2"];
+
+        if(!WebSecurity.UserExists(username))
+        {
+       
+        WebSecurity.CreateUserAndAccount(username, password1);
+
+       // WebSecurity.CreateUserAndAccount(username, password1, null, false);
+       // WebSecurity.Login(username, password1);
+      //  Response.Redirect("default");
+        }
+}
+}
+@{
+    Layout="~/shared/_layout.cshtml";
+    var PageTitle="Regestration Page";
+}
+
+@section t1{
+@PageTitle
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Registeration</title>
+</head>
+<body>
+<h1 style="margin-left: 350px">Registeration</h1>
+<div style="width: 400px;height:250px;border:solid black;margin-left: 250px;margin-top: 60px">
+<form action="register" method="post">
+<table style="margin-left: 50px;margin-top: 50px">
+<tr><td><label for="username">Username: </label></td>
+<td><input id="username" name="username" type="text" value="" /></td>
+</tr>
+<tr><td><label for="password1">Password: </label></td><td><input id="password1" name="password1" type="password" value="" /></td></tr>
+<tr><td><label for="password2">Confirm Password: </label></td></span><td><input id="password2" name="password2" type="password" value="" /></td></tr>
+</table>
+<input type="submit" value="Register" style="width:70px;height:30px;margin-top: 20px;margin-left: 150px"/>
+</form>
+</div>
+<br/>
+<br/>
+<br/>
+</body>
+</html>

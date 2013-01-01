@@ -1,0 +1,24 @@
+﻿@{
+    
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@RenderSection("t1")</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />        
+    </head>
+    <body>
+     @RenderPage("~/Shared/_header.cshtml")    
+     @RenderPage("~/Shared/_footer.cshtml")  
+     <div id="wrapper">																																																																											
+		<div id="content_inside">
+         @RenderPage("~/Shared/_sidebar.cshtml")
+         @RenderBody()
+        </div>
+	</div>  
+        @RenderPage("~/Shared/_map.cshtml")
+    </body>
+</html>

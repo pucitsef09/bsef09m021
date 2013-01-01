@@ -1,0 +1,47 @@
+﻿@{
+    var db = Database.Open("MyDB");
+    var q = "SELECT * FROM Category ORDER BY CName";
+    var data = db.Query(q);
+ }
+@{
+    Layout="~/shared/_LayoutForAdmin.cshtml";
+    var PageTitle="Furniture Shop Product Categories";
+}
+
+@section t1{
+@PageTitle
+}
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Furniture Shop Product Categories</title>
+   <style>
+       table, th, td {
+         border: solid 1px #bbbbbb;
+         border-collapse: collapse;
+         padding: 2px;
+       }
+    </style>
+ </head>
+ <body>
+   <h1>Furniture Shop Product Categories</h1>
+   <table style="margin-top: 20px; background-color: #bbbbbb;width: 500px">
+       <thead>
+           <tr style="border: thin black; background-color: #407e48">
+               <th>ID</th>
+               <th>Name</th>               
+               <th>Description</th>                      
+           </tr>
+       </thead>
+       <tbody>
+           @foreach(var row in data){
+            <tr style="border: thin black; background-color: #dfd5d5;text-align: center">
+               <td>@row.CID</td>
+                   <td>@row.CName</td>                   
+                   <td>@row.CDescription</td>                                      
+            </tr>
+           }
+       </tbody>
+   </table>
+ </body>
+</html>

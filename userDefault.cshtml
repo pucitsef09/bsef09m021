@@ -1,0 +1,150 @@
+﻿@{
+    Layout="~/shared/_layout1.cshtml";
+    var PageTitle="Home Page";
+}
+
+@section t1{
+@PageTitle
+}
+
+@{ 
+App.offset1=0;
+App.offset2=0;
+    string value="";
+    var fetch=0;
+    
+    var  db = Database.Open("MyDB");
+    var query = "SELECT * FROM products ORDER BY PNAme";
+    var data = db.Query(query);
+
+    var query1 = "SELECT * FROM products ORDER BY Pid OFFSET 0 ROWS FETCH NEXT 3 ROWS ONLY";
+    var data1= db.Query(query1);
+
+    var query2 = "SELECT * FROM products ORDER BY Pid OFFSET 3 ROWS FETCH NEXT 3 ROWS ONLY";
+    var data2= db.Query(query2);
+
+    var count=data.Count();
+    
+    
+    if(IsPost)
+    {
+           if(Request.Form["submit_button"]==">")
+           {
+               if(App.offset2>count)
+               {
+                    
+                    fetch=3;
+                    var query3="SELECT * FROM products ORDER BY Pid OFFSET "+ @App.offset1 +" ROWS FETCH NEXT "+ fetch +" ROWS ONLY";
+                    data1= db.Query(query3);
+                    var query4="SELECT * FROM products ORDER BY Pid OFFSET "+ @App.offset2 +" ROWS FETCH NEXT "+ fetch +" ROWS ONLY";
+                    data2= db.Query(query4);
+
+               }
+               else
+               {    
+                    App.offset1=App.offset1+6;
+                    App.offset2=App.offset2+6;
+                    fetch=3;
+                    if(App.offset1>=0 && App.offset2>=0)
+                    {
+                 
+                    
+                        var query3="SELECT * FROM products ORDER BY Pid OFFSET "+ @App.offset1 +" ROWS FETCH NEXT "+ fetch +" ROWS ONLY";
+                        data1= db.Query(query3);
+                        var query4="SELECT * FROM products ORDER BY Pid OFFSET "+ @App.offset2 +" ROWS FETCH NEXT "+ fetch +" ROWS ONLY";
+                        data2= db.Query(query4);
+                    
+                    }
+                    else
+                    {
+                        App.offset1=App.offset1-6;
+                        App.offset2=App.offset2-6;
+                    }
+                 }
+                
+            if(Request.Form["submit_button"]=="<")
+            {
+                App.offset1=App.offset1-6;
+                App.offset2=App.offset2-6;
+                fetch=3;
+                if(App.offset1>=0 && App.offset2>=0)
+                {
+                    var query3="SELECT * FROM products ORDER BY Pid OFFSET "+ @App.offset1 +" ROWS FETCH NEXT "+ fetch +" ROWS ONLY";
+                    data1= db.Query(query3);
+                    var query4="SELECT * FROM products ORDER BY Pid OFFSET "+ @App.offset2 +" ROWS FETCH NEXT "+ fetch +" ROWS ONLY";
+                    data2= db.Query(query4);
+                }
+                else
+                {
+                    App.offset1=App.offset1+6;
+                    App.offset2=App.offset2+6;
+                }
+            }
+           
+          }
+                 
+    }
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>                
+        <link rel="stylesheet" type="text/css" href="~/Styles/style.css" />                 
+	    <script src="~/Styles/jquery.min.js"></script>
+	    <script src="~/Styles/jquery.easing.min.js"></script>
+	    <script src="~/Styles/slides.min.jquery.js"></script>
+	        <script>
+		        $(function(){
+			        $('#slides').slides({
+				        preload: true,
+				        preloadImage: 'images/loading.gif',
+				        play: 2500,
+				        pause: 2500,
+				        hoverPause: true
+			        });
+		        });
+	        </script>
+    
+         
+    </head>
+    <body>
+        <form action="" method="post">
+        	<div id="main_block">
+                @if (WebSecurity.IsAuthenticated)
+                { 
+                <p>Welcome, @WebSecurity.CurrentUserName</p>
+                }
+				
+		<div class="news">      
+		
+			<div id="slides">
+				<div class="slides_container">
+                @foreach (var r in db.Query(query)){
+				@Helper_Default.SlidesH(r.PImage)
+			     }
+				</div>				
+			</div>			
+		</div>
+               
+				<div id="items">
+					@foreach (var row in data1)
+                    {    
+                        @Helper_Default.MainPage(row.PImage,row.PPrice,row.PNAme,row.Pid)                                                 
+                    }					
+				</div>
+                <div id="items">
+					@foreach (var row in data2)
+                    {    
+                        @Helper_Default.MainPage(row.PImage,row.PPrice,row.PNAme,row.Pid)                                                 
+                    }					
+				</div>
+                
+               <form action="" method="post">
+                <input name="submit_button" type="submit" value="<" class="button1" style="margin-left: 170px;color: #000"/>
+                <input name="submit_button" type="submit" value=">" class="button1" style="margin-left: 50px; margin-bottom: 10px;color: #000"/> </form>
+			</div>
+            </form>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+﻿
+
+@{
+    Validation.RequireField("Name", "Category name is required.");        
+    
+    var db = Database.Open("MyDB");
+    var Name = Request.Form["Name"];
+    var Description = Request.Form["Description"];    
+
+    if (IsPost && Validation.IsValid()) {        
+        if(ModelState.IsValid) {
+            var insertQuery = "INSERT INTO Category (CName, CDescription) " +
+                "VALUES (@0, @1)";
+            db.Execute(insertQuery, Name, Description);            
+        }
+    }
+}
+
+@{
+     Layout="~/shared/_LayoutForAdmin.cshtml";
+     var PageTitle="Add Category";
+}
+@section t1{
+@PageTitle
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style type="text/css">        
+    fieldset {padding: 1em; border: 1px solid; width: 20em;}
+    legend {padding: 2px 4px; border: 1px solid; font-weight:bold;}
+    .validation-summary-errors {font-weight:bold; color:red;
+           font-size: 11pt;}
+ </style>
+    </head>
+    <body>
+     @Html.ValidationSummary()
+     <form method="post" action="" enctype="multipart/form-data">
+     <fieldset>
+     <legend>Add Category</legend>
+      <div>
+      <table style="height: 100px;width: 400px">
+        <tr><td>Name : </td><td><input type="text" name="Name"></td></tr>
+        <tr><td>Description : </td><td><input type="text" name="Description"></td></tr>        
+      </table>      
+      </div>
+      <div style="padding: 8px;margin-left: 90px;margin-top: 30px">
+      <input type="submit" value="Add Category" class="submit" style="width:90px;height: 30px" />
+        </div>    
+      </fieldset>
+      </form>     
+    </body>
+</html>

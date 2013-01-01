@@ -1,0 +1,36 @@
+﻿@{
+     Layout="~/shared/_layout.cshtml";
+     var PageTitle="Product Information";
+}
+
+@section t1{
+@PageTitle
+}
+
+@{
+  var db = Database.Open("MyDB");
+  var ProductName = UrlData[0];
+  
+  var row = db.QuerySingle("SELECT * FROM products WHERE PName = @0", ProductName);
+    
+    var Name=row.PNAme;
+    var Image=row.PImage;
+    var Price=row.PPrice;
+    var Description=row.PDescription;
+    var Category=row.PCategory;
+  
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="~/Styles/style.css" />
+    </head>
+    <body>
+     	<div id="main_block" class="style1">																																																																													
+			@Helper_ProductInfo.product(Name,Image,Price,Description,Category)	
+	    </div>      
+    </body>
+</html>

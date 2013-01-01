@@ -1,0 +1,89 @@
+﻿@{
+    Layout="~/shared/_Checkout.cshtml";
+    var PageTitle="Check Out";
+}
+
+@section t1{
+@PageTitle
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" href="~/Styles/Checkout.css" type="text/css">
+    </head>
+    <body>
+        <div id="Wrapper">
+			
+			<div class="Content Widest" id="LayoutColumn1">
+				<div class="Block Moveable Panel">
+					<h2>Secure Checkout</h2>
+					<div class="BlockContent">
+						<div class="CreateAccount">
+							<form action="checkout.php?action=choose_billing_address" method="post">
+								<div id="CheckoutGuestForm" style="">
+									<h4>I'm A New Customer</h4>
+									<p>Register with us for a faster checkout, to track the status of your order and more. You can also checkout as a guest.</p>
+									<div class="PL40" style="line-height: 2;">
+										<dl>
+											<dd><label><input name="checkout_type" id="checkout_type_guest" value="guest" type="radio" /> Checkout as a guest</label></dd>
+											<dd><label><input name="checkout_type" id="checkout_type_register" value="register" checked="checked" type="radio" /> Register an account</label></dd>
+										</dl>
+										<p class="Submit" style="margin-top: 4px;">
+											<input type="submit" value="Continue" />
+										</p>
+									</div>
+								</div>
+								<div style="display: none">
+									<h4>I'm A New Customer</h4>
+									<p>Create an account with us and you'll be able to:</p>
+									<div class="PL40">
+										<ul style="margin-left: 0; line-height: 1.4;">
+											<li>Checkout faster</li>
+											<li>Save multiple addresses in your address book</li>
+											<li>Access order history and track your orders</li>
+										</ul>
+									</div>
+									<p class="PL40 Submit" style="margin-top: 4px;">
+										<input type="submit" value="Continue" />
+									</p>
+								</div>
+							</form>
+						</div>
+
+						<div class="AccountLogin">
+							<h4>I'm A Returning Customer</h4>
+							<p>To continue, please enter your email address and password that you use for your account.</p>
+							<form action="checkout.php?action=choose_billing_address" id="LoginForm" method="post">
+								<div class="FormContainer HorizontalFormContainer NarrowFormContainer">
+									<p style="display: none" class="">
+										
+									</p>
+
+									<dl>
+										<dt>Email Address:</dt>
+										<dd><input type="text" class="Textbox Field150 InitialFocus" name="login_email" id="login_email" /></dd>
+
+										<dt>Password:</dt>
+										<dd><input type="password" autocomplete="off" class="Textbox Field150" name="login_pass" id="login_pass" /></dd>
+									</dl>
+									<p class="Submit">
+										<input id="LoginButton" type="submit" value="Continue" style="padding:2px 10px 2px 10px" />
+										<br />
+										<a href="http://www.ishopping.pk/login.php?action=reset_password">Forgot your password?</a>
+									</p>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<br class="Clear" />
+			</div>
+			</div>
+        <br class="Clear" />
+        </div>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+﻿
+@{
+  var db = Database.Open("MyDB");
+  var CategoryName = UrlData[0];
+ 
+  var q = db.Query("SELECT * FROM Category WHERE CName = @0", CategoryName);  
+ 
+}
+
+@{
+    Layout="~/shared/_LayoutForAdmin.cshtml";
+    var PageTitle="Category Search Results";
+}
+
+@section t1{
+@PageTitle
+}
+<!DOCTYPE html>
+<html>
+ <head>
+   <title></title>
+   <style>
+       table, th, td {
+         border: solid 1px #bbbbbb;
+         border-collapse: collapse;
+         padding: 2px;
+       }
+    </style>
+ </head>
+ <body>
+    @{var count=0;}
+    @foreach(var v in q)
+     { count++; }
+      
+
+   <h1>Furniture Shop Product Categories</h1>
+   <table style="margin-top: 20px; background-color: #bbbbbb;width: 500px">
+       @{ 
+        if (count!=0)
+        { 
+       <thead>
+           <tr style="border: thin black; background-color: #407e48">
+               <th>ID</th>
+               <th>Name</th>               
+               <th>Description</th>                      
+           </tr>
+       </thead>
+       <tbody>
+           @foreach(var r in q){
+            <tr style="border: thin black; background-color: #dfd5d5;text-align: center">
+               <td>@r.CID</td>
+                   <td>@r.CName</td>                   
+                   <td>@r.CDescription</td>                   
+                   
+            </tr>
+           }
+       </tbody>}
+               else{<tr><td>No Results found <a href="~/SearchCategory.cshtml">Search</a> again</td></tr>}
+    }
+   </table>
+ </body>
+</html>

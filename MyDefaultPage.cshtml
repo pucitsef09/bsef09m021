@@ -1,0 +1,73 @@
+﻿@{
+    Layout="~/shared/_layout.cshtml";
+    var PageTitle="Home Page";
+}
+
+@section t1{
+@PageTitle
+}
+
+@{
+    var db = Database.Open("MyDB");
+    var selectQueryString = "SELECT * FROM products";
+
+}
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>                
+        <link rel="stylesheet" type="text/css" href="~/Styles/style.css" />                 
+	    <script src="~/Styles/jquery.min.js"></script>
+	    <script src="~/Styles/jquery.easing.min.js"></script>
+	    <script src="~/Styles/slides.min.jquery.js"></script>
+	        <script>
+		        $(function(){
+			        $('#slides').slides({
+				        preload: true,
+				        preloadImage: 'images/loading.gif',
+				        play: 5000,
+				        pause: 2500,
+				        hoverPause: true
+			        });
+		        });
+	        </script>
+    
+         
+    </head>
+    <body>
+        	<div id="main_block">
+				<div class="about">
+					<img src="~/Styles/images/title2.gif" alt="n" width="191" height="30" /><br />
+					<p>It takes more than just the ability to make good furniture to become the #1 selling brand of home furniture in Pakistan.
+                       <b>Quality, Style, Selection, Service</b>
+These are the four cornerstones to our business model. They are the basis for every decision we make and the guiding principles to our mission statement:
+<b>We want to be the best furniture company.</b> </p>
+					<a href="#">more info</a>
+				</div>
+		<div class="news">	        
+		
+			<div id="slides">
+				<div class="slides_container">
+					<img src="~/Styles/slides/slide1.jpg" alt="No Image found">
+					<img src="~/Styles/slides/slide2.jpg" alt="No Image found">
+                    <img src="~/Styles/slides/slide3.jpg" alt="No Image found">
+                    <img src="~/Styles/slides/slide4.jpg" alt="No Image found">
+                    <img src="~/Styles/slides/slide5.jpg" alt="No Image found">
+                    <img src="~/Styles/slides/slide6.jpg" alt="No Image found">
+                    <img src="~/Styles/slides/slide7.jpg" alt="No Image found">
+                    <img src="~/Styles/slides/slide8.jpg" alt="No Image found">
+				</div>				
+			</div>			
+		</div>
+               
+				<div id="items">
+					@foreach (var row in db.Query(selectQueryString))
+                    {    
+                        @Helper_Default.MainPage(row.PImage,row.PPrice,row.PNAme,row.Pid)                                                 
+                    }					
+				</div>
+			</div>
+    </body>
+</html>

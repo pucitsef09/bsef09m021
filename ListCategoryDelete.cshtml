@@ -1,0 +1,51 @@
+﻿@{
+  var db = Database.Open("MyDB");
+  var selectQueryString = "SELECT * FROM Category ORDER BY CName";
+}
+@{
+    Layout="~/shared/_LayoutForAdmin.cshtml";
+    var PageTitle="Delete Category";
+}
+
+@section t1{
+@PageTitle
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete a Category</title>
+    <style>
+        table, th, td {
+          border: solid 1px #bbbbbb;
+          border-collapse: collapse;
+          padding: 2px;
+        }
+     </style>
+</head>
+<body>
+  <h1>Furniture Shop Prodcut Categories</h1>
+  <form method="post" action="" name="form">
+    <table style="margin-top: 20px; background-color: #bbbbbb;width: 500px">
+      <thead>
+        <tr style="border: thin black; background-color: #407e48">
+               <th>&nbsp;</th>
+               <th>ID</th>
+               <th>Name</th>
+               <th>Description</th>
+                      
+           </tr>
+      </thead>
+      <tbody>
+        @foreach (var row in db.Query(selectQueryString)) {
+         <tr style="border: thin black; background-color: #dfd5d5;text-align: center">
+                   <td><a href="@Href("~/DeleteCategory.cshtml",row.CID,row.CName)">Delete</a></td>
+                   <td>@row.CID</td>
+                   <td>@row.CName</td>                   
+                   <td>@row.CDescription</td>                                      
+          </tr>
+        }
+      </tbody>
+    </table>
+  </form>
+</body>
+</html>

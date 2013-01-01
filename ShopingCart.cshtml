@@ -1,0 +1,148 @@
+﻿@{
+    Layout="~/shared/_layout.cshtml";
+    var PageTitle="Shoping Cart";
+}
+
+@section t1{
+@PageTitle
+}
+
+@{
+  var db = Database.Open("MyDB");
+  var ProductName = UrlData[0];
+  var prodID=UrlData[1];
+  var userid=0;
+  var getid="SELECT * FROM ShopingCart";
+  var dataa=db.Query(getid);
+  List<int> List=new List<int>();
+  List<string> ListofPNames=new List<string>();
+  var i=0;
+  foreach(var w in dataa)
+  {List.Add(w.pid);ListofPNames.Add(w.PName);}
+  if(WebSecurity.GetUserId(WebSecurity.CurrentUserName)==null)
+      {
+          var num=0;
+          do{
+          Random r=new Random();
+          num=r.Next(2,100000);
+          }while(List.Contains(num)!=false);
+          userid=num;
+      }
+      else
+      {userid=WebSecurity.GetUserId(WebSecurity.CurrentUserName);}   
+  
+  if(ProductName!="null" && ListofPNames.Contains(ProductName)!=true)
+  {
+  var row = db.QuerySingle("SELECT * FROM products WHERE Pid = @0", prodID);
+    
+    var Name=row.PNAme;
+    var Image=row.PImage;
+    var Price=row.PPrice;
+    var Description=row.PDescription;
+    var Category=row.PCategory;
+    var Quantity=row.PQuantity;      
+      
+            var insertQuery = "INSERT INTO ShopingCart (UID,PName,PCategory,PDescription,PPrice,PQuantity,PImage) " +
+            "VALUES (@0, @1,@2,@3,@4,@5,@6)";
+            db.Execute(insertQuery,userid, Name, Category,Description,Price,1,Image);}
+    else{
+         var dbd=db.QuerySingle("SELECT *FROM ShopingCart WHERE PName=@0",ProductName);
+         var uq= "UPDATE ShopingCart SET PQuantity=@0 WHERE PName=@1" ;
+         var inc=Convert.ToInt32(dbd.PQuantity)+1;
+         var ins=Convert.ToString(inc);
+        db.Execute(uq,ins,ProductName);
+    }
+}
+@{    
+    var selectQueryString = "SELECT * FROM ShopingCart WHERE UID=@0";
+    var data = db.Query(selectQueryString,userid);   
+
+} 
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="~/Styles/Cart.css" />
+</head>
+    <body>
+    <div class="Block Moveable Panel" id="CartHeader" style="margin-bottom:7px;">
+
+	<h2>
+		Your Shopping Cart
+       
+        <span style= "margin-left:410px;" class="FloatRight">
+			<a href="~/OrderDetails.cshtml" onclick="" title="Click here to proceed to checkout">		
+            <img src="~/Styles/images/proceedtocheckout.png" alt="Click here to proceed to checkout" />		
+            </a>			
+		</span>		
+	</h2>
+
+    </div>
+    <div id="col3_content" class="clearfix">
+    <div id="body-column-main">
+    <div id="box-shoppingCart" class="box-container box-container-none">    
+    <div class="box box-style-none  box-padding-none">
+        <input name="CartUnitsCounter" id="CartUnitsCounter" value="2" type="hidden">  
+        <form enctype="multipart/form-data" onsubmit="return Cart.ValidateQuantityForm(this);" action="cart.php" name="cartForm" id="cartForm" method="post">
+            <input type="hidden" name="action" value="update" />
+            <table class="shopping-cart" border="0"= cellspacing="0" width="100%">
+            <tbody>
+
+            <tr>
+                <td scope="col" colspan="2" class="cart-btm-table" style="background-color: #a3c494;width: 90px">Items To Buy Now</td>
+                <td scope="col" class="cart-btm-table" style="background-color: #a3c494;width: 90px;text-align: center">Qty</td>
+                <td scope="col" class="cart-btm-table" align="right" style="background-color: #a3c494;width: 120px">Item Total</td>
+            </tr>
+
+    @{var total=0;}
+    @foreach(var cart in data)
+    {
+       var d = db.QuerySingle("SELECT * FROM products WHERE PNAme = @0", cart.PName);    
+       var Q=d.PQuantity;
+    string p=cart.PPrice;string v=p.Substring(1,(p.Length-1));int price=Convert.ToInt32(v);
+    <tr class="first  units unit_117200290" style="background-color: #b2c9c9">
+    <td class="itemList-browse-cover" style="vertical-align: middle;" align="center">
+        @Helper_Cart.Div1(cart.PImage)      
+    </td>
+    <td class="bord-r-gray-dark">
+        @Helper_Cart.Div2(cart.PPrice,cart.PName)
+    </td>
+    <td class="txt11 bord-r-gray-dark" align="center">
+       @Helper_Cart.Div3(Q,cart.PName,cart.pid) 
+     </td>
+    <td class="last txt11 padl-53">
+        @Helper_Cart.Div4(cart.PPrice)
+      @{ total=total+price;}
+    </td>
+</tr>}
+                
+ </tbody></table>
+            
+</form>
+    <div class="cls cart-btm-table">
+        <div class="fl">
+            <a href="@Href("~/Default.cshtml")">» Continue shopping</a>
+        </div>
+        <table class="fr" style="width: auto;" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class=" align-r"><strong>Grand total:</strong></td>
+                    <td class="cart-total align-r" nowrap="nowrap">
+                        <div class="small-price">
+                            <strong class="total_price_after_coupon">$@total</strong>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="cls">
+    </div>
+</div>
+</div></div>
+</div>
+    </body>
+</html>

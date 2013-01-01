@@ -1,0 +1,100 @@
+ /* #col3 becomes the right column | #col3 wird zur rechten Spalte */
+  #col3 {  margin-left: 0px; margin-right: 315px; }
+  #col3_content { margin: 0px; }
+.box-container,.box-container-none{margin: 0;padding: 0;overflow: hidden;}
+.box-style-none, .box-container-none {background: none;    border: none !important;}
+.box-style-none,
+.box-style-solid,
+.box-style-border,
+.box-style-border-top,
+.box-style-bg-top,
+.box-style-featuerd
+{overflow:hidden;height:100%;margin-bottom: 15px;}
+.shopping-cart th{
+        background:#F2F2F2;
+        padding:8px 15px;
+                font-weight:bold;
+        /*border-right:1px solid #fff*/
+                text-align: center;
+    }
+    .shopping-cart td{
+        padding:10px 15px;
+        vertical-align: top;
+        line-height:18px;
+        border-bottom:1px solid #dededb;
+        /*border-right:1px solid #d7d7d7;*/
+    }
+
+    .shopping-cart td.last{
+        border-right:none;
+        text-align: right;
+    }
+
+
+    .shopping-cart td table td{
+        border-bottom: 0;
+        padding: 5px;
+    }
+    .cart-btm-table{
+    padding:8px 5px 8px 23px;
+    background: #F2F2F2;
+    }
+.cart-coupon{
+    position: absolute;
+    right: 80px;
+    top: -2px;
+    }
+
+.cart-total{
+    padding:0 10px 0 5px
+    }
+.padrb-5 {padding:0 5px 5px 0}
+.padtrb-5 {padding:5px 5px 5px 0}
+.pad5055{padding:5px 0 5px 5px}
+.padt-10{padding-top:10px}
+.padrbl-15-5-5 {padding:0px 15px 5px 5px}
+.padtbl-25 {padding:9px 0 8px 25px}
+.padbl-10{padding:0 0 10px 10px}
+.pad0-15-5-5{padding:0 15px 5px 5px}
+.pad0555{padding:0 5px 5px 5px}
+.pad-3-11-3-3{padding:3px 11px 3px 3px}
+.pad-8-0-0-5{padding:8px 0 0 5px}
+.bord-b-w{border-bottom:1px solid #fff}
+.bord-r-gray-dark{border-right:1px solid #D7D7D7}
+.bord_l_dash{border-left:1px dashed #d8d8d8}
+.bord_r_dash{border-right:1px dashed #d8d8d8}
+.bord-r-gray{border-right:1px solid #efefef}
+.bord_b_dash{border-bottom:1px dashed #d8d8d8}
+.mart-3{margin-top:3px}
+.mart-5{margin-top:5px}
+/*fonts_en*/
+.text-dark-grey  {color:#666666}
+.text-orange{color:#D36F03}
+.text-orange-light{color:#ea9b00}
+.text-green {color:#23782f}
+.text-white {color:#ffffff}
+.text-yellow{color:#fcff0d}
+.text-red {color: #bb0000}
+.text-blue{color: #115798}
+.text-black{color:#000;}
+.text-blue:hover{text-decoration: underline;cursor:pointer}
+.txt11{font-size:11px}
+
+.fl {
+float: left;
+}
+    .fr {
+float: right;
+}
+    .cls {
+zoom: 1;
+    height: 14px;
+}
+    .cart-btm-table {
+padding: 8px 5px 8px 23px;
+background: #F2F2F2;
+}
+body {
+ font: 11px/1.231 verdana,Helvetica,Arial,sans-serif;
+ color: #515151;
+  }
